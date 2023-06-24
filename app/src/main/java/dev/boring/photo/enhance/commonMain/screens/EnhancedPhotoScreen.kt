@@ -1,4 +1,4 @@
-package dev.boring.photo.enhance.common.screens
+package dev.boring.photo.enhance.commonMain.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -6,10 +6,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import dev.boring.photo.enhance.common.RemoveAdsButton
+import androidx.navigation.NavHostController
+import dev.boring.photo.enhance.UserViewModel
 
 @Composable
-fun EnhancedPhotoScreen() {
+fun EnhancedPhotoScreen(userViewModel: UserViewModel, navHostController: NavHostController) {
     Column {
         DownloadButton()
 
@@ -35,5 +36,5 @@ fun DownloadButton() {
 }
 
 fun innerDownloadButton() {
-    TODO("Not yet implemented")
+    
 }

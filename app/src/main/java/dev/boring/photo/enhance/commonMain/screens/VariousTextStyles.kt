@@ -1,5 +1,7 @@
-package dev.boring.photo.enhance.common
+package dev.boring.photo.enhance.commonMain.screens
 
+import android.annotation.SuppressLint
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,28 +9,30 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.sp
-import dev.boring.photo.enhance.common.theme.GoogleLightBlue
-import dev.boring.photo.enhance.common.theme.Orange
-import dev.boring.photo.enhance.common.theme.Purple
+import dev.boring.photo.enhance.commonMain.theme.bluesColors
+import dev.boring.photo.enhance.commonMain.theme.rainbowColors
+
+// TODO: Add more various text styles
 
 @Composable
 fun TextShadow(
     text: String,
-    textStyle: TextStyle = TextStyle(),
-    offset: Offset = Offset(5.0f, 10.0f)
+    modifier: Modifier = Modifier,
+    offset: Offset = Offset(5f, 5f),
+    style: TextStyle = LocalTextStyle.current
 ) {
     Text(
         text = text,
-        style = textStyle.copy(
-            fontSize = 24.sp,
+        modifier = modifier,
+        style = style.copy(
             shadow = Shadow(
-                color = Color.Blue,
+                color = Color.Blue.copy(alpha = .5f),
                 offset = offset,
                 blurRadius = 3f
             )
@@ -36,16 +40,18 @@ fun TextShadow(
     )
 }
 
+@OptIn(ExperimentalTextApi::class)
 @Composable
-fun TextBrush(
+fun TextWholeGradient(
     text: String,
-    colorList: List<Color> = listOf(
-        Color.Cyan, GoogleLightBlue, Purple
-    )
+    modifier: Modifier = Modifier,
+    colorList: List<Color> = bluesColors,
+    style: TextStyle = LocalTextStyle.current
 ) {
     Text(
         text = text,
-        style = TextStyle(
+        modifier = modifier,
+        style = style.copy(
             brush = Brush.linearGradient(
                 colors = colorList
             )
@@ -53,17 +59,16 @@ fun TextBrush(
     )
 }
 
+@OptIn(ExperimentalTextApi::class)
 @Composable
 fun TextRainbow(
-    modifier: Modifier = Modifier,
     textBefore: String,
-    outsideTextColor: Color,
     textIn: String,
-    textInColorList: List<Color> = listOf(
-        Color.Red, Orange, Color.Yellow,
-        Color.Green, Color.Cyan, Color.Blue, Purple
-    ),
-    textAfter: String = ""
+    textAfter: String = "",
+    textBeforeColor: Color = Color.Unspecified,
+    textInColors: List<Color> = rainbowColors,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
+    style: TextStyle = LocalTextStyle.current
 ) {
 //    val brush = Brush.linearGradient(colors = textInColorList)
     Text(
@@ -79,16 +84,17 @@ fun TextRainbow(
             withStyle(
                 SpanStyle(
                     brush = Brush.linearGradient(
-                        colors = textInColorList
+                        colors = textInColors
                     )
                 )
             ) {
                 append(textIn)
             }
-//            append("textAfter")
+            append(textAfter)
         },
         modifier = modifier,
-        color = outsideTextColor,
-        textAlign = TextAlign.Center
+        color = textBeforeColor,
+        textAlign = TextAlign.Center,
+        style = style
     )
 }

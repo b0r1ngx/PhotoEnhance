@@ -1,4 +1,4 @@
-package dev.boring.photo.enhance.common.data
+package dev.boring.photo.enhance.commonMain.data
 
 data class UserStatus(
     var isPremium: Boolean,

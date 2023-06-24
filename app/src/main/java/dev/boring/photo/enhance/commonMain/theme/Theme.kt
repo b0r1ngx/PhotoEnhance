@@ -1,4 +1,4 @@
-package dev.boring.photo.enhance.common.theme
+package dev.boring.photo.enhance.commonMain.theme
 
 import android.app.Activity
 import android.os.Build

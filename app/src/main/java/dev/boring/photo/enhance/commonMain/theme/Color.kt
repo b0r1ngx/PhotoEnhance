@@ -1,4 +1,4 @@
-package dev.boring.photo.enhance.common.theme
+package dev.boring.photo.enhance.commonMain.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -14,3 +14,13 @@ val Orange = Color(0xffffbd55)
 val Purple = Color(0xffbf30f3)
 val ColorNameLightBlue = Color(0xFF80B3FF)
 val GoogleLightBlue = Color(0xFF0066FF)
+val Gold = Color(0xFFFFBB00)
+
+val bluesColors = listOf(
+    Color.Cyan, GoogleLightBlue, Purple
+)
+
+val rainbowColors = listOf(
+    Color.Red, Orange, Color.Yellow,
+    Color.Green, Color.Cyan, Color.Blue, Purple
+)

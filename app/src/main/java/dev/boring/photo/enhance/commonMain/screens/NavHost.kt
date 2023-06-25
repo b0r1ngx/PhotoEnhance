@@ -15,13 +15,13 @@ fun PhotoEnhanceApp(userViewModel: UserViewModel) {
 
 @Composable
 fun AppNavHost(userViewModel: UserViewModel, navHostController: NavHostController) =
-    NavHost(navController = navHostController, startDestination = Navigation.MainScreen.name) {
+    NavHost(navController = navHostController, startDestination = Navigation.MainScreen.name) { // MainScreen
         composable(route = Navigation.MainScreen.name) {
             MainScreen(userViewModel, navHostController)
         }
 
         composable(route = Navigation.UploadedPhotoScreen.name) {
-            UploadedPhotoScreen(userViewModel, navHostController)
+//            UploadedPhotoScreen(userViewModel, navHostController)
         }
 
         composable(route = Navigation.EnhancedPhotoScreen.name) {

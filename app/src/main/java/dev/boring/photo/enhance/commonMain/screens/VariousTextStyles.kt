@@ -32,7 +32,7 @@ fun TextShadow(
         modifier = modifier,
         style = style.copy(
             shadow = Shadow(
-                color = Color.Blue.copy(alpha = .5f),
+                color = Color.Blue.copy(alpha = .6f),
                 offset = offset,
                 blurRadius = 3f
             )

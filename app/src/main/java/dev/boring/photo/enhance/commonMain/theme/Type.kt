@@ -36,3 +36,11 @@ val Typography = Typography(
 val BigTextStyle = TextStyle(
     fontSize = 32.sp
 )
+
+val ButtonTextStyle = TextStyle(
+    fontSize = 24.sp
+)
+
+val ButtonDescriptionTextStyle = TextStyle(
+    fontSize = 16.sp
+)

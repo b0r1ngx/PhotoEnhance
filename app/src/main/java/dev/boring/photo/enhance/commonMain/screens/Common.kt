@@ -22,16 +22,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.boring.photo.enhance.R
+import dev.boring.photo.enhance.commonMain.COLOR_ALPHA
 import dev.boring.photo.enhance.commonMain.designs.TextRainbow
 import dev.boring.photo.enhance.commonMain.designs.TextShadow
 import dev.boring.photo.enhance.commonMain.designs.TextWholeGradient
 import dev.boring.photo.enhance.commonMain.theme.BigTextAlignCenterStyle
 import dev.boring.photo.enhance.commonMain.theme.ButtonTextStyle
+import dev.boring.photo.enhance.commonMain.theme.buttonSize
 import dev.boring.photo.enhance.commonMain.theme.cornerShape
 import dev.boring.photo.enhance.commonMain.theme.iconSize
 import kotlin.random.Random
 
-private const val COLORED_ALPHA = .6f
+private const val PREVIEW_PHOTO_WEIGHT = .6f
 
 @Composable
 fun RandomText(
@@ -61,7 +63,7 @@ fun PreviewPhoto(@DrawableRes id: Int) {
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .clip(shape = cornerShape)
-            .height((LocalConfiguration.current.screenHeightDp * .6f).dp)
+            .height((LocalConfiguration.current.screenHeightDp * PREVIEW_PHOTO_WEIGHT).dp)
     )
 }
 
@@ -87,12 +89,13 @@ fun RemoveAdsButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 fun ColoredAlphaButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    containerColor: Color = Color.Blue,
     content: @Composable () -> Unit
 ) = Button(
     onClick = { onClick() },
     modifier = modifier,
     colors = ButtonDefaults.buttonColors(
-        containerColor = Color.Blue.copy(alpha = COLORED_ALPHA)
+        containerColor = containerColor.copy(alpha = COLOR_ALPHA)
     )
 ) { content() }
 
@@ -102,4 +105,12 @@ private fun RandomTextPreview() = RandomText(text = "Hello world\nI'm your frien
 
 @Composable
 @Preview
-private fun RemoveAdsButtonPreview() = RemoveAdsButton { }
+private fun RemoveAdsButtonPreview() = RemoveAdsButton(
+    modifier = Modifier.buttonSize()
+) { }
+
+@Composable
+@Preview
+private fun RemoveAdsButtonFromAppPreview() = RemoveAdsButton(
+    modifier = Modifier
+) { }

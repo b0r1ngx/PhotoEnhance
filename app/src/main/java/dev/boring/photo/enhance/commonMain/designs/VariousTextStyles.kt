@@ -14,16 +14,22 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import dev.boring.photo.enhance.commonMain.COLOR_ALPHA
+import dev.boring.photo.enhance.commonMain.Offset
 import dev.boring.photo.enhance.commonMain.theme.bluesColors
 import dev.boring.photo.enhance.commonMain.theme.rainbowColors
 
 // TODO: Add more various text styles
 
+private const val TEXT_SHADOW_BLUR_RADIUS = 3f
+private const val TEXT_SHADOW_OFFSET = 5f
+
 @Composable
 fun TextShadow(
     text: String,
     modifier: Modifier = Modifier,
-    offset: Offset = Offset(5f, 5f),
+    shadowColor: Color = Color.Blue,
+    offset: Offset = Offset(TEXT_SHADOW_OFFSET),
     style: TextStyle = LocalTextStyle.current
 ) {
     Text(
@@ -31,9 +37,9 @@ fun TextShadow(
         modifier = modifier,
         style = style.copy(
             shadow = Shadow(
-                color = Color.Blue.copy(alpha = .6f),
+                color = shadowColor.copy(alpha = COLOR_ALPHA),
                 offset = offset,
-                blurRadius = 3f
+                blurRadius = TEXT_SHADOW_BLUR_RADIUS
             )
         )
     )

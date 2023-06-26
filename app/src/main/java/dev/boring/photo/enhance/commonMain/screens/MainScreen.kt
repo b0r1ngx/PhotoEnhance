@@ -50,9 +50,9 @@ import kotlin.math.roundToInt
 
 private const val OFFSET_MULTIPLIER = 3
 private const val HALF_PART_SCREEN_WEIGHT = 1f
+private const val TEXT_VERTICAL_PADDING_WEIGHT = .04f
 private const val UPLOADED_PHOTO_AS_WINDOW_TOP_PADDING_WEIGHT = .1f
 private const val LINE_BETWEEN_IMAGES_EASE_ONE_DIRECTION_DURATION = 4000
-private const val TEXT_VERTICAL_PADDING_WEIGHT = .04f
 
 @Composable
 fun MainScreen(userViewModel: UserViewModel, navHostController: NavHostController) {
@@ -181,7 +181,6 @@ private fun UploadImageButton(
 ) = ColoredAlphaButton(onClick = { onClick() }, modifier = modifier) {
     Text(text = "Upload Image", style = ButtonTextStyle)
 }
-
 
 @Composable
 @Preview()

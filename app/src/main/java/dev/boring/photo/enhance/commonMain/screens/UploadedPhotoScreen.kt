@@ -75,13 +75,6 @@ fun UploadedPhotoScreen(
 }
 
 @Composable
-private fun UploadOtherPhotoButton(modifier: Modifier) =
-    ColoredAlphaButton(onClick = { }, modifier = modifier) {
-        Text(text = "Upload Other Photo")
-    }
-
-
-@Composable
 private fun CloseButton(
     isOpened: MutableState<Boolean>,
     modifier: Modifier = Modifier

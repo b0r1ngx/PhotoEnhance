@@ -1,6 +1,5 @@
-package dev.boring.photo.enhance.commonMain.screens
+package dev.boring.photo.enhance.commonMain.designs
 
-import android.annotation.SuppressLint
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -64,10 +63,10 @@ fun TextWholeGradient(
 fun TextRainbow(
     textBefore: String,
     textIn: String,
+    modifier: Modifier = Modifier,
     textAfter: String = "",
     textBeforeColor: Color = Color.Unspecified,
     textInColors: List<Color> = rainbowColors,
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
     style: TextStyle = LocalTextStyle.current
 ) {
 //    val brush = Brush.linearGradient(colors = textInColorList)

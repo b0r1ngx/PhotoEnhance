@@ -22,7 +22,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.boring.photo.enhance.R
-import dev.boring.photo.enhance.commonMain.theme.BigTextStyle
+import dev.boring.photo.enhance.commonMain.designs.TextRainbow
+import dev.boring.photo.enhance.commonMain.designs.TextShadow
+import dev.boring.photo.enhance.commonMain.designs.TextWholeGradient
+import dev.boring.photo.enhance.commonMain.theme.BigTextAlignCenterStyle
 import dev.boring.photo.enhance.commonMain.theme.ButtonTextStyle
 import dev.boring.photo.enhance.commonMain.theme.cornerShape
 import dev.boring.photo.enhance.commonMain.theme.iconSize
@@ -34,19 +37,19 @@ private const val COLORED_ALPHA = .6f
 fun RandomText(
     text: String,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = BigTextStyle
+    textStyle: TextStyle = BigTextAlignCenterStyle
 ) {
     when (Random.nextInt(0, 3)) { // 0, 1, 2 -> create enum ?
         0 -> {
             var (textBefore, textIn) = text.split('\n')
             textBefore += '\n'
             TextRainbow(
-                modifier = modifier, textBefore = textBefore, textIn = textIn, style = textStyle
+                textBefore = textBefore, textIn = textIn, modifier = modifier, style = textStyle
             )
         }
 
-        1 -> TextShadow(modifier = modifier, text = text, style = textStyle)
-        2 -> TextWholeGradient(modifier = modifier, text = text, style = textStyle)
+        1 -> TextShadow(text = text, modifier = modifier, style = textStyle)
+        2 -> TextWholeGradient(text = text, modifier = modifier, style = textStyle)
     }
 }
 

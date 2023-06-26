@@ -27,7 +27,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -51,7 +52,7 @@ fun MainScreen(userViewModel: UserViewModel, navHostController: NavHostControlle
     val isUserUploadPhoto = remember { userViewModel.isUserUploadPhoto }
     Box {
         Column { // modifier = Modifier.background(Color.Black)
-            ComparePictures(modifier = Modifier.weight(1f))
+            CompareImages(modifier = Modifier.weight(1f))
             Footer(
                 modifier = Modifier.weight(1f)
             ) { // TODO: allow (w/ dialog?) user where to pick up photo -> Camera / Photos / Files
@@ -88,7 +89,7 @@ fun MainScreen(userViewModel: UserViewModel, navHostController: NavHostControlle
 }
 
 @Composable
-private fun ComparePictures(modifier: Modifier = Modifier) {
+private fun CompareImages(modifier: Modifier = Modifier) {
     val screenWidthInt = LocalConfiguration.current.screenWidthDp
 
     val infiniteTransition = rememberInfiniteTransition(label = "DraggableLine")
@@ -103,38 +104,38 @@ private fun ComparePictures(modifier: Modifier = Modifier) {
     )
 
     Box(modifier = modifier) {
-        Picture(
-            modifier = Modifier
-                .align(alignment = Alignment.CenterStart),
+        Image(
             painter = painterResource(id = R.drawable.man),
-            width = progress.dp
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = modifier
+                .align(alignment = Alignment.CenterStart)
+                .fillMaxSize()
+                .drawWithContent {
+                    clipRect(right = 3 * progress) {
+                        this@drawWithContent.drawContent()
+                    }
+                }
         )
-        Picture(
-            modifier = Modifier
-                .align(alignment = Alignment.CenterEnd),
+        Image(
             painter = painterResource(id = R.drawable.woman),
-            width = (screenWidthInt - progress).dp
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = modifier
+                .align(alignment = Alignment.CenterEnd)
+                .fillMaxSize()
+                .drawWithContent {
+                    clipRect(left = 3 * progress) {
+                        this@drawWithContent.drawContent()
+                    }
+                }
         )
-        LineBetweenPictures(progress)
+        LineBetweenImages(progress)
     }
 }
 
 @Composable
-private fun Picture(
-    modifier: Modifier = Modifier,
-    painter: Painter,
-    width: Dp
-) = Image(
-    painter = painter,
-    contentDescription = null,
-    contentScale = ContentScale.Crop,
-    modifier = modifier
-        .width(width)
-        .fillMaxSize()
-)
-
-@Composable
-private fun LineBetweenPictures(
+private fun LineBetweenImages(
     progress: Float,
     dividerWidth: Dp = 2.dp,
 ) = Box(modifier = Modifier.fillMaxSize()) {
@@ -142,7 +143,7 @@ private fun LineBetweenPictures(
         modifier = Modifier
             .width(dividerWidth)
             .fillMaxHeight()
-            .offset { IntOffset((progress * 3).roundToInt(), 0) },
+            .offset { IntOffset((3 * progress).roundToInt(), 0) },
         color = MaterialTheme.colorScheme.onSecondary
     )
 }

@@ -95,7 +95,7 @@ fun ColoredAlphaButton(
 
 @Composable
 @Preview
-private fun RandomTextPreview() = RandomText(text = "Hello\nworld")
+private fun RandomTextPreview() = RandomText(text = "Hello world\nI'm your friend")
 
 @Composable
 @Preview

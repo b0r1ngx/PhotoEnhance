@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -100,8 +101,8 @@ private fun CloseButton(
 private fun EnhancePhotoButton(modifier: Modifier, onClick: () -> Unit) =
     ColoredAlphaButton(onClick = { onClick() }, modifier = modifier) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Enhance Photo", style = ButtonTextStyle)
-            Text(text = "Watch an Ad", style = ButtonDescriptionTextStyle)
+            Text(text = stringResource(id = R.string.uploaded_enhance_image), style = ButtonTextStyle)
+            Text(text = stringResource(id = R.string.watch_an_ad), style = ButtonDescriptionTextStyle)
         }
     }
 

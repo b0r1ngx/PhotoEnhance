@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -78,7 +79,7 @@ private fun DownloadButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Download", style = ButtonTextStyle)
+            Text(text = stringResource(id = R.string.enhanced_download), style = ButtonTextStyle)
             Icon(
                 painter = painterResource(id = R.drawable.round_download_24),
                 contentDescription = null,
@@ -128,8 +129,8 @@ private fun DownloadButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 private fun InnerDownloadButton(modifier: Modifier, onClick: () -> Unit) {
     Button(onClick = { onClick() }, modifier = modifier) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Download", style = ButtonTextStyle)
-            Text(text = "Watch an Ad", style = ButtonDescriptionTextStyle)
+            Text(text = stringResource(id = R.string.enhanced_download), style = ButtonTextStyle)
+            Text(text = stringResource(id = R.string.watch_an_ad), style = ButtonDescriptionTextStyle)
         }
     }
 }

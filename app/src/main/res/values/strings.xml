@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Photo Enhance</string>
+
+    <!-- MainScreen -->
+    <string name="main_title">Make your photos\nlook Pro with AI</string>
+    <!-- TODO: Think what to word use here? Image/Photo/... -->
+    <string name="main_upload_image">Upload Image</string>
+
+    <!-- UploadedPhoto Window/Screen -->
+    <string name="uploaded_enhance_image">Enhance Image</string>
+
+    <!-- EnhancedPhoto Screen -->
+    <string name="enhanced_download">Download</string>
+
+    <!-- Common -->
+    <string name="watch_an_ad">Watch an Ad</string>
+    <string name="remove_ads">Remove Ads</string>
+
+    <!-- -->
+    <string name="preview_hello_world">Hello world\nI\'m your friend</string>
+
 </resources>

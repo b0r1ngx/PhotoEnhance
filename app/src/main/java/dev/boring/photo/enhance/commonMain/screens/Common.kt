@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -75,7 +76,7 @@ fun RemoveAdsButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Remove Ads", style = ButtonTextStyle)
+            Text(text = stringResource(id = R.string.remove_ads), style = ButtonTextStyle)
             Image(
                 painter = painterResource(id = R.drawable.heart_diamond),
                 contentDescription = null,
@@ -101,7 +102,7 @@ fun ColoredAlphaButton(
 
 @Composable
 @Preview
-private fun RandomTextPreview() = RandomText(text = "Hello world\nI'm your friend")
+private fun RandomTextPreview() = RandomText(text = stringResource(id = R.string.preview_hello_world))
 
 @Composable
 @Preview

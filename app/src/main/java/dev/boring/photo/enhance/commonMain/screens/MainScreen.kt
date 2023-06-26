@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -166,7 +167,7 @@ private fun Footer(modifier: Modifier = Modifier, onClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         RandomText(
-            text = "Make your photos\nlook Pro with AI",
+            text = stringResource(id = R.string.main_title),
             modifier = Modifier.padding(vertical = (screenHeight * TEXT_VERTICAL_PADDING_WEIGHT).dp)
         )
         UploadImageButton(modifier = Modifier.buttonSize(), onClick = onClick)
@@ -179,7 +180,7 @@ private fun UploadImageButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) = ColoredAlphaButton(onClick = { onClick() }, modifier = modifier) {
-    Text(text = "Upload Image", style = ButtonTextStyle)
+    Text(text = stringResource(id = R.string.main_upload_image), style = ButtonTextStyle)
 }
 
 @Composable

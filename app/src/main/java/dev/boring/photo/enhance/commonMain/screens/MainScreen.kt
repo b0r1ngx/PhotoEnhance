@@ -42,27 +42,35 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dev.boring.photo.enhance.R
 import dev.boring.photo.enhance.UserViewModel
+import dev.boring.photo.enhance.commonMain.PREVIEW_HEIGHT
+import dev.boring.photo.enhance.commonMain.PREVIEW_WIDTH
 import dev.boring.photo.enhance.commonMain.theme.ButtonTextStyle
 import dev.boring.photo.enhance.commonMain.theme.buttonSize
 import kotlin.math.roundToInt
+
+private const val OFFSET_MULTIPLIER = 3
+private const val HALF_PART_SCREEN_WEIGHT = 1f
+private const val UPLOADED_PHOTO_AS_WINDOW_TOP_PADDING_WEIGHT = .1f
+private const val LINE_BETWEEN_IMAGES_EASE_ONE_DIRECTION_DURATION = 4000
+private const val TEXT_VERTICAL_PADDING_WEIGHT = .04f
 
 @Composable
 fun MainScreen(userViewModel: UserViewModel, navHostController: NavHostController) {
     val configuration = LocalConfiguration.current
     val isUserUploadPhoto = remember { userViewModel.isUserUploadPhoto }
     Box {
-        Column { // modifier = Modifier.background(Color.Black)
-            CompareImages(modifier = Modifier.weight(1f))
-            Footer(
-                modifier = Modifier.weight(1f)
-            ) { // TODO: allow (w/ dialog?) user where to pick up photo -> Camera / Photos / Files
-                isUserUploadPhoto.value = true // navigate(Navigation.UploadedPhotoScreen.name)
+        Column {
+            CompareImages(modifier = Modifier.weight(HALF_PART_SCREEN_WEIGHT))
+            Footer(modifier = Modifier.weight(HALF_PART_SCREEN_WEIGHT)) {
+                // TODO: allow (w/ dialog?) user to pick photo from -> Camera / Photos / Files
+                isUserUploadPhoto.value = true // call as window
+                // navHostController.navigate(Navigation.UploadedPhotoScreen.name) // call as new screen
             }
         }
         AnimatedVisibility(
             visible = isUserUploadPhoto.value,
             modifier = Modifier.padding(
-                top = (configuration.screenHeightDp * .1f).dp
+                top = (configuration.screenHeightDp * UPLOADED_PHOTO_AS_WINDOW_TOP_PADDING_WEIGHT).dp
             ),
             enter = slideInVertically(
                 animationSpec = spring(
@@ -91,17 +99,20 @@ fun MainScreen(userViewModel: UserViewModel, navHostController: NavHostControlle
 @Composable
 private fun CompareImages(modifier: Modifier = Modifier) {
     val screenWidthInt = LocalConfiguration.current.screenWidthDp
-
     val infiniteTransition = rememberInfiniteTransition(label = "DraggableLine")
     val progress by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = screenWidthInt.toFloat(),
         animationSpec = infiniteRepeatable(
-            animation = tween(4000, easing = LinearEasing),
+            animation = tween(
+                durationMillis = LINE_BETWEEN_IMAGES_EASE_ONE_DIRECTION_DURATION,
+                easing = LinearEasing
+            ),
             repeatMode = RepeatMode.Reverse
         ),
         label = "DraggableLine.progress"
     )
+    val offsetFixedProgress = progress * OFFSET_MULTIPLIER
 
     Box(modifier = modifier) {
         Image(
@@ -112,7 +123,7 @@ private fun CompareImages(modifier: Modifier = Modifier) {
                 .align(alignment = Alignment.CenterStart)
                 .fillMaxSize()
                 .drawWithContent {
-                    clipRect(right = 3 * progress) {
+                    clipRect(right = offsetFixedProgress) {
                         this@drawWithContent.drawContent()
                     }
                 }
@@ -125,72 +136,57 @@ private fun CompareImages(modifier: Modifier = Modifier) {
                 .align(alignment = Alignment.CenterEnd)
                 .fillMaxSize()
                 .drawWithContent {
-                    clipRect(left = 3 * progress) {
+                    clipRect(left = offsetFixedProgress) {
                         this@drawWithContent.drawContent()
                     }
                 }
         )
-        LineBetweenImages(progress)
+        LineBetweenImages(progress = offsetFixedProgress)
     }
 }
 
+// if at testing/updates it start work bad surround it with Box(modifier = Modifier.fillMaxSize()){}
 @Composable
 private fun LineBetweenImages(
     progress: Float,
     dividerWidth: Dp = 2.dp,
-) = Box(modifier = Modifier.fillMaxSize()) {
-    Divider(
-        modifier = Modifier
-            .width(dividerWidth)
-            .fillMaxHeight()
-            .offset { IntOffset((3 * progress).roundToInt(), 0) },
-        color = MaterialTheme.colorScheme.onSecondary
-    )
-}
+) = Divider(
+    modifier = Modifier
+        .width(dividerWidth)
+        .fillMaxHeight()
+        .offset { IntOffset((progress).roundToInt(), 0) },
+    color = MaterialTheme.colorScheme.onSecondary
+)
 
 @Composable
 private fun Footer(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val configuration = LocalConfiguration.current
+    val screenHeight = LocalConfiguration.current.screenHeightDp
     Column(
-        modifier = modifier
-            .fillMaxSize(),
-//            .drawBehind { continuousMazePattern() },
+        modifier = modifier.fillMaxSize(), // padding draws? .drawBehind { continuousMazePattern() }
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         RandomText(
             text = "Make your photos\nlook Pro with AI",
-            modifier = Modifier.padding(vertical = (configuration.screenHeightDp * .04f).dp)
+            modifier = Modifier.padding(vertical = (screenHeight * TEXT_VERTICAL_PADDING_WEIGHT).dp)
         )
-        UploadImageButton(
-            modifier = Modifier
-                .buttonSize(),
-            onClick = onClick
-        )
+        UploadImageButton(modifier = Modifier.buttonSize(), onClick = onClick)
     }
 }
 
+// extra things for button? .background(brush = Brush.linearGradient(colors = rainbowColors))
 @Composable
 private fun UploadImageButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
-) {
-    ColoredAlphaButton(
-        onClick = { onClick() },
-        modifier = modifier
-//            .background(
-//                brush = Brush.linearGradient(
-//                    colors = rainbowColors
-//                )
-//            ),
-    ) {
-        Text(text = "Upload Image", style = ButtonTextStyle)
-    }
+) = ColoredAlphaButton(onClick = { onClick() }, modifier = modifier) {
+    Text(text = "Upload Image", style = ButtonTextStyle)
 }
+
 
 @Composable
 @Preview()
 @Preview(device = Devices.PIXEL_4)
-@Preview(widthDp = 411, heightDp = 891)
+@Preview(widthDp = PREVIEW_WIDTH, heightDp = PREVIEW_HEIGHT)
 private fun MainScreenPreview() = MainScreen(
     userViewModel = viewModel(),
     navHostController = rememberNavController()

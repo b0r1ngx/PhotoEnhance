@@ -90,15 +90,12 @@ fun MainScreen(userViewModel: UserViewModel, navHostController: NavHostControlle
 
 @Composable
 private fun ComparePictures(modifier: Modifier = Modifier) {
-    val configuration = LocalConfiguration.current
-    val screenWidthInt = configuration.screenWidthDp
-    val screenWidthFloat = configuration.screenWidthDp.toFloat()
-    val screenWidth = screenWidthInt.dp
+    val screenWidthInt = LocalConfiguration.current.screenWidthDp
 
     val infiniteTransition = rememberInfiniteTransition(label = "DraggableLine")
     val progress by infiniteTransition.animateFloat(
         initialValue = 0f,
-        targetValue = screenWidthFloat,
+        targetValue = screenWidthInt.toFloat(),
         animationSpec = infiniteRepeatable(
             animation = tween(4000, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
@@ -117,10 +114,9 @@ private fun ComparePictures(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .align(alignment = Alignment.CenterEnd),
             painter = painterResource(id = R.drawable.woman),
-            width = progress.dp - screenWidth
+            width = (screenWidthInt - progress).dp
         )
-        DraggableLine(progress)
-        println("floatValue: ${progress}")
+        LineBetweenPictures(progress)
     }
 }
 
@@ -139,7 +135,7 @@ private fun Picture(
 )
 
 @Composable
-private fun DraggableLine(
+private fun LineBetweenPictures(
     progress: Float,
     dividerWidth: Dp = 2.dp,
 ) = Box(modifier = Modifier.fillMaxSize()) {

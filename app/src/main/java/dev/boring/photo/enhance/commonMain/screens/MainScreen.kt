@@ -187,7 +187,9 @@ private fun UploadImageButton(
 }
 
 @Composable
+@Preview()
 @Preview(device = Devices.PIXEL_4)
+@Preview(widthDp = 411, heightDp = 891)
 private fun MainScreenPreview() = MainScreen(
     userViewModel = viewModel(),
     navHostController = rememberNavController()

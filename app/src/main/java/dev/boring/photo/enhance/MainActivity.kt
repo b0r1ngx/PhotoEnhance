@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.boring.photo.enhance.commonMain.screens.PhotoEnhanceApp
+import dev.boring.photo.enhance.commonMain.navigation.PhotoEnhanceApp
 import dev.boring.photo.enhance.commonMain.theme.PhotoEnhanceTheme
 
 // TODO: Use colors only from MaterialTheme.colorScheme

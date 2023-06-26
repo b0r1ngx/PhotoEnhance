@@ -183,7 +183,7 @@ private fun UploadImageButton(
 }
 
 @Composable
-@Preview()
+@Preview
 @Preview(device = Devices.PIXEL_4)
 @Preview(widthDp = PREVIEW_WIDTH, heightDp = PREVIEW_HEIGHT)
 private fun MainScreenPreview() = MainScreen(

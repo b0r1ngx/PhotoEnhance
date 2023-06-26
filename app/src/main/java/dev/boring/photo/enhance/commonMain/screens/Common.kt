@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -20,11 +19,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.boring.photo.enhance.R
 import dev.boring.photo.enhance.commonMain.theme.BigTextStyle
 import dev.boring.photo.enhance.commonMain.theme.ButtonTextStyle
+import dev.boring.photo.enhance.commonMain.theme.cornerShape
+import dev.boring.photo.enhance.commonMain.theme.iconSize
 import kotlin.random.Random
+
+private const val COLORED_ALPHA = .6f
 
 @Composable
 fun RandomText(
@@ -53,14 +57,14 @@ fun PreviewPhoto(@DrawableRes id: Int) {
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier
-            .clip(shape = RoundedCornerShape(size = 22.dp))
+            .clip(shape = cornerShape)
             .height((LocalConfiguration.current.screenHeightDp * .6f).dp)
     )
 }
 
 @Composable
-fun RemoveAdsButton(modifier: Modifier) {
-    ColoredAlphaButton(onClick = { }, modifier = modifier) {
+fun RemoveAdsButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    ColoredAlphaButton(onClick = { onClick() }, modifier = modifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -70,7 +74,7 @@ fun RemoveAdsButton(modifier: Modifier) {
             Image(
                 painter = painterResource(id = R.drawable.heart_diamond),
                 contentDescription = null,
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(iconSize)
             )
         }
     }
@@ -85,12 +89,10 @@ fun ColoredAlphaButton(
     onClick = { onClick() },
     modifier = modifier,
     colors = ButtonDefaults.buttonColors(
-        containerColor = Color.Blue.copy(alpha = .6f)
+        containerColor = Color.Blue.copy(alpha = COLORED_ALPHA)
     )
-) {
-    content()
-}
+) { content() }
 
-//@Composable
-//@Preview(device = Devices.PIXEL_4)
-//fun PreviewContent(content: @Composable () -> Unit) = content()
+@Composable
+@Preview
+fun PreviewContent() = RemoveAdsButton { }

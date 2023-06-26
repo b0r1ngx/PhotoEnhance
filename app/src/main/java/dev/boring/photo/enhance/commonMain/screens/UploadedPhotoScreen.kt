@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -28,9 +28,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dev.boring.photo.enhance.R
 import dev.boring.photo.enhance.UserViewModel
+import dev.boring.photo.enhance.commonMain.PHOTO_N_BUTTON_PADDING_WEIGHT
+import dev.boring.photo.enhance.commonMain.PREVIEW_HEIGHT
+import dev.boring.photo.enhance.commonMain.PREVIEW_WIDTH
+import dev.boring.photo.enhance.commonMain.navigation.Navigation
 import dev.boring.photo.enhance.commonMain.theme.ButtonDescriptionTextStyle
 import dev.boring.photo.enhance.commonMain.theme.ButtonTextStyle
 import dev.boring.photo.enhance.commonMain.theme.buttonSize
+import dev.boring.photo.enhance.commonMain.theme.cornerShape
+import dev.boring.photo.enhance.commonMain.theme.iconSize
+
+private const val CLOSE_BUTTON_PADDING = 10
 
 @Composable
 fun UploadedPhotoScreen(
@@ -41,12 +49,12 @@ fun UploadedPhotoScreen(
     val configuration = LocalConfiguration.current
     Box(
         modifier = Modifier
-            .clip(shape = RoundedCornerShape(22.dp))
-            .background(color = Color.White)
+            .clip(shape = cornerShape)
+            .background(color = Color.White) // TODO: hard color (MaterialTheme.colorScheme.onSecondary)
             .padding(
-                top = (configuration.screenWidthDp * .01f).dp,
-                start = (configuration.screenWidthDp * .01f).dp,
-                end = (configuration.screenWidthDp * .01f).dp
+                top = (configuration.screenWidthDp * PHOTO_N_BUTTON_PADDING_WEIGHT).dp,
+                start = (configuration.screenWidthDp * PHOTO_N_BUTTON_PADDING_WEIGHT).dp,
+                end = (configuration.screenWidthDp * PHOTO_N_BUTTON_PADDING_WEIGHT).dp
             )
             .fillMaxHeight()
     ) {
@@ -58,19 +66,19 @@ fun UploadedPhotoScreen(
             }
             RemoveAdsButton(
                 modifier = Modifier
-                    .padding(vertical = (configuration.screenHeightDp * .01f).dp)
+                    .padding(vertical = (configuration.screenHeightDp * PHOTO_N_BUTTON_PADDING_WEIGHT).dp)
                     .buttonSize()
-            )
+            ) { }
         }
     }
 }
 
 @Composable
-private fun UploadOtherPhotoButton(modifier: Modifier) {
+private fun UploadOtherPhotoButton(modifier: Modifier) =
     ColoredAlphaButton(onClick = { }, modifier = modifier) {
         Text(text = "Upload Other Photo")
     }
-}
+
 
 @Composable
 private fun CloseButton(
@@ -80,28 +88,27 @@ private fun CloseButton(
     painter = painterResource(id = R.drawable.round_cancel_24),
     contentDescription = null,
     modifier = modifier
-        .padding(10.dp)
-        .size(30.dp)
+        .padding(CLOSE_BUTTON_PADDING.dp)
+        .size(iconSize)
         .clickable(
             interactionSource = remember { MutableInteractionSource() },
             indication = null
-        ) {
-            isOpened.value = false
-        }
+        ) { isOpened.value = false }
 )
 
 @Composable
-private fun EnhancePhotoButton(modifier: Modifier, onClick: () -> Unit) {
+private fun EnhancePhotoButton(modifier: Modifier, onClick: () -> Unit) =
     ColoredAlphaButton(onClick = { onClick() }, modifier = modifier) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "Enhance Photo", style = ButtonTextStyle)
             Text(text = "Watch an Ad", style = ButtonDescriptionTextStyle)
         }
     }
-}
 
 @Composable
-@Preview(widthDp = 411, heightDp = 891)
+@Preview
+@Preview(device = Devices.PIXEL_4)
+@Preview(widthDp = PREVIEW_WIDTH, heightDp = PREVIEW_HEIGHT)
 private fun UploadedPhotoScreenPreview() = UploadedPhotoScreen(
     userViewModel = viewModel(),
     navHostController = rememberNavController(),

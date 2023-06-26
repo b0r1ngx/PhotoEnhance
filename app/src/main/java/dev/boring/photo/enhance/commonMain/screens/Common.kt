@@ -95,4 +95,8 @@ fun ColoredAlphaButton(
 
 @Composable
 @Preview
-fun PreviewContent() = RemoveAdsButton { }
+private fun RandomTextPreview() = RandomText(text = "Hello\nworld")
+
+@Composable
+@Preview
+private fun RemoveAdsButtonPreview() = RemoveAdsButton { }

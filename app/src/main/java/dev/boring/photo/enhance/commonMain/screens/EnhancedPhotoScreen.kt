@@ -23,8 +23,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import dev.boring.photo.enhance.R
 import dev.boring.photo.enhance.UserViewModel
 import dev.boring.photo.enhance.commonMain.theme.ButtonDescriptionTextStyle
@@ -50,12 +53,12 @@ fun EnhancedPhotoScreen(userViewModel: UserViewModel, navHostController: NavHost
 }
 
 @Composable
-fun QualitySwitch() {
+private fun QualitySwitch() {
 
 }
 
 @Composable
-fun DownloadButton() {
+private fun DownloadButton() {
     val isOpened = remember { mutableStateOf(false) }
     ColoredAlphaButton(
         onClick = { isOpened.value = true },
@@ -113,7 +116,7 @@ fun DownloadButton() {
 }
 
 @Composable
-fun InnerDownloadButton(modifier: Modifier) {
+private fun InnerDownloadButton(modifier: Modifier) {
     Button(onClick = { }, modifier = modifier) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "Download", style = ButtonTextStyle)
@@ -121,3 +124,10 @@ fun InnerDownloadButton(modifier: Modifier) {
         }
     }
 }
+
+@Composable
+@Preview(widthDp = 411, heightDp = 891)
+private fun UploadedPhotoScreenPreview() = EnhancedPhotoScreen(
+    userViewModel = viewModel(),
+    navHostController = rememberNavController()
+)

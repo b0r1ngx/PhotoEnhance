@@ -67,14 +67,14 @@ fun UploadedPhotoScreen(
 }
 
 @Composable
-fun UploadOtherPhotoButton(modifier: Modifier) {
+private fun UploadOtherPhotoButton(modifier: Modifier) {
     ColoredAlphaButton(onClick = { }, modifier = modifier) {
         Text(text = "Upload Other Photo")
     }
 }
 
 @Composable
-fun CloseButton(
+private fun CloseButton(
     isOpened: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) = Icon(
@@ -92,7 +92,7 @@ fun CloseButton(
 )
 
 @Composable
-fun EnhancePhotoButton(modifier: Modifier, onClick: () -> Unit) {
+private fun EnhancePhotoButton(modifier: Modifier, onClick: () -> Unit) {
     ColoredAlphaButton(onClick = { onClick() }, modifier = modifier) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "Enhance Photo", style = ButtonTextStyle)
@@ -103,9 +103,8 @@ fun EnhancePhotoButton(modifier: Modifier, onClick: () -> Unit) {
 
 @Composable
 @Preview(widthDp = 411, heightDp = 891)
-fun UploadedPhotoScreenPreview() =
-    UploadedPhotoScreen(
-        userViewModel = viewModel(),
-        navHostController = rememberNavController(),
-        isOpened = remember { mutableStateOf(true) }
-    )
+private fun UploadedPhotoScreenPreview() = UploadedPhotoScreen(
+    userViewModel = viewModel(),
+    navHostController = rememberNavController(),
+    isOpened = remember { mutableStateOf(true) }
+)

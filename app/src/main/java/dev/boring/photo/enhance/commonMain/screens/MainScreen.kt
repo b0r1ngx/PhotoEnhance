@@ -13,7 +13,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -126,7 +125,7 @@ private fun ComparePictures(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun BoxScope.Picture(
+private fun Picture(
     modifier: Modifier = Modifier,
     painter: Painter,
     width: Dp

@@ -23,7 +23,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,18 +48,18 @@ import kotlin.math.roundToInt
 @Composable
 fun MainScreen(userViewModel: UserViewModel, navHostController: NavHostController) {
     val configuration = LocalConfiguration.current
-    val isOpened = remember { mutableStateOf(false) }
+    val isUserUploadPhoto = remember { userViewModel.isUserUploadPhoto }
     Box {
         Column { // modifier = Modifier.background(Color.Black)
             ComparePictures(modifier = Modifier.weight(1f))
             Footer(
                 modifier = Modifier.weight(1f)
             ) { // TODO: allow (w/ dialog?) user where to pick up photo -> Camera / Photos / Files
-                isOpened.value = true // navigate(Navigation.UploadedPhotoScreen.name)
+                isUserUploadPhoto.value = true // navigate(Navigation.UploadedPhotoScreen.name)
             }
         }
         AnimatedVisibility(
-            visible = isOpened.value,
+            visible = isUserUploadPhoto.value,
             modifier = Modifier.padding(
                 top = (configuration.screenHeightDp * .1f).dp
             ),
@@ -82,7 +81,7 @@ fun MainScreen(userViewModel: UserViewModel, navHostController: NavHostControlle
             UploadedPhotoScreen(
                 userViewModel = userViewModel,
                 navHostController = navHostController,
-                isOpened = isOpened
+                isOpened = isUserUploadPhoto
             )
         }
     }
@@ -144,7 +143,7 @@ private fun LineBetweenPictures(
             .width(dividerWidth)
             .fillMaxHeight()
             .offset { IntOffset((progress * 3).roundToInt(), 0) },
-        color = Color.White
+        color = Color.White // TODO: Use colors of MaterialTheme
     )
 }
 

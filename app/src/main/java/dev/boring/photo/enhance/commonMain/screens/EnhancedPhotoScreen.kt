@@ -46,7 +46,7 @@ fun EnhancedPhotoScreen(userViewModel: UserViewModel, navHostController: NavHost
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        PreviewPhoto(id = R.drawable.man)
+        PreviewPhoto(id = R.drawable.man) // TODO: hint for user: touch photo to see how it was
         QualitySwitch()
         DownloadButton()
     }

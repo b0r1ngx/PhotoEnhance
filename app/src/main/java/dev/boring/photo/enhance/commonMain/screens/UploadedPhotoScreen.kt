@@ -61,7 +61,6 @@ fun UploadedPhotoScreen(
                     .padding(vertical = (configuration.screenHeightDp * .01f).dp)
                     .buttonSize()
             )
-//            UploadOtherPhotoButton(modifier = Modifier.buttonSize())
         }
     }
 }

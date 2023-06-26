@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import dev.boring.photo.enhance.commonMain.screens.PhotoEnhanceApp
 import dev.boring.photo.enhance.commonMain.theme.PhotoEnhanceTheme
 
+// TODO: Use colors only from MaterialTheme.colorScheme
 class MainActivity : ComponentActivity() {
     private val userViewModel: UserViewModel by viewModels()
 

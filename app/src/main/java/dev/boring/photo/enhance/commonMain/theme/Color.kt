@@ -15,6 +15,7 @@ val Purple = Color(0xffbf30f3)
 val ColorNameLightBlue = Color(0xFF80B3FF)
 val GoogleLightBlue = Color(0xFF0066FF)
 val Gold = Color(0xFFFFBB00)
+val PickedQuality = Color(0xFF2F2F2F)
 
 val bluesColors = listOf(
     Color.Cyan, GoogleLightBlue, Purple

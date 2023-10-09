@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -45,7 +46,8 @@ private const val CLOSE_BUTTON_PADDING = 10
 fun UploadedPhotoScreen(
     userViewModel: UserViewModel,
     navHostController: NavHostController,
-    isOpened: MutableState<Boolean>
+    isOpened: MutableState<Boolean>,
+    textHeightDp: MutableState<Dp>
 ) {
     val configuration = LocalConfiguration.current
     Box(
@@ -61,13 +63,17 @@ fun UploadedPhotoScreen(
     ) {
         PreviewPhoto(id = R.drawable.woman)
         CloseButton(isOpened = isOpened, modifier = Modifier.align(Alignment.TopEnd))
-        Column(modifier = Modifier.align(Alignment.BottomCenter)) {
+        Column(
+            modifier = Modifier
+                .padding(top = (configuration.screenHeightDp / 2).dp + textHeightDp.value)
+                .align(Alignment.TopCenter)
+        ) {
             EnhancePhotoButton(modifier = Modifier.buttonSize()) {
                 navHostController.navigate(Navigation.EnhancedPhotoScreen.name)
             }
             RemoveAdsButton(
                 modifier = Modifier
-                    .padding(vertical = (configuration.screenHeightDp * PHOTO_N_BUTTON_PADDING_WEIGHT).dp)
+                    .padding(vertical = (configuration.screenHeightDp * 2 * PHOTO_N_BUTTON_PADDING_WEIGHT).dp)
                     .buttonSize()
             ) { }
         }
@@ -92,10 +98,16 @@ private fun CloseButton(
 
 @Composable
 private fun EnhancePhotoButton(modifier: Modifier, onClick: () -> Unit) =
-    ColoredAlphaButton(onClick = { onClick() }, modifier = modifier) {
+    ColoredAlphaButton(onClick = { onClick() }, modifier = modifier, containerColor = Color.Black) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = stringResource(id = R.string.uploaded_enhance_image), style = ButtonTextStyle)
-            Text(text = stringResource(id = R.string.watch_an_ad), style = ButtonDescriptionTextStyle)
+            Text(
+                text = stringResource(id = R.string.uploaded_enhance_image),
+                style = ButtonTextStyle
+            )
+            Text(
+                text = stringResource(id = R.string.watch_an_ad),
+                style = ButtonDescriptionTextStyle
+            )
         }
     }
 
@@ -106,5 +118,6 @@ private fun EnhancePhotoButton(modifier: Modifier, onClick: () -> Unit) =
 private fun UploadedPhotoScreenPreview() = UploadedPhotoScreen(
     userViewModel = viewModel(),
     navHostController = rememberNavController(),
-    isOpened = remember { mutableStateOf(true) }
+    isOpened = remember { mutableStateOf(true) },
+    textHeightDp = remember { mutableStateOf(68.dp) }
 )

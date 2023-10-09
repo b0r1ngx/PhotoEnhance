@@ -2,7 +2,6 @@ package dev.boring.photo.enhance.commonMain.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -23,14 +22,18 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -59,10 +62,11 @@ private const val LINE_BETWEEN_IMAGES_EASE_ONE_DIRECTION_DURATION = 4000
 fun MainScreen(userViewModel: UserViewModel, navHostController: NavHostController) {
     val configuration = LocalConfiguration.current
     val isUserUploadPhoto = remember { userViewModel.isUserUploadPhoto }
+    val textHeightDp = remember { mutableStateOf(0.dp) }
     Box {
         Column {
             CompareImages(modifier = Modifier.weight(HALF_PART_SCREEN_WEIGHT))
-            Footer(modifier = Modifier.weight(HALF_PART_SCREEN_WEIGHT)) {
+            Footer(modifier = Modifier.weight(HALF_PART_SCREEN_WEIGHT), textHeightDp) {
                 // TODO: allow (w/ dialog?) user to pick photo from -> Camera / Photos / Files
                 isUserUploadPhoto.value = true // call as window
                 // navHostController.navigate(Navigation.UploadedPhotoScreen.name) // call as new screen
@@ -91,7 +95,8 @@ fun MainScreen(userViewModel: UserViewModel, navHostController: NavHostControlle
             UploadedPhotoScreen(
                 userViewModel = userViewModel,
                 navHostController = navHostController,
-                isOpened = isUserUploadPhoto
+                isOpened = isUserUploadPhoto,
+                textHeightDp
             )
         }
     }
@@ -109,7 +114,7 @@ private fun CompareImages(modifier: Modifier = Modifier) {
                 durationMillis = LINE_BETWEEN_IMAGES_EASE_ONE_DIRECTION_DURATION,
                 easing = LinearEasing
             ),
-            repeatMode = RepeatMode.Reverse
+            // TODO: why this is warning?, repeatMode = RepeatMode.Reverse
         ),
         label = "DraggableLine.progress"
     )
@@ -160,17 +165,23 @@ private fun LineBetweenImages(
 )
 
 @Composable
-private fun Footer(modifier: Modifier = Modifier, onClick: () -> Unit) {
+private fun Footer(modifier: Modifier = Modifier, textHeightDp: MutableState<Dp>, onClick: () -> Unit) {
     val screenHeight = LocalConfiguration.current.screenHeightDp
+    val localDensity = LocalDensity.current
     Column(
         modifier = modifier.fillMaxSize(), // padding draws? .drawBehind { continuousMazePattern() }
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         RandomText(
             text = stringResource(id = R.string.main_title),
-            modifier = Modifier.padding(vertical = (screenHeight * TEXT_VERTICAL_PADDING_WEIGHT).dp)
+            modifier = Modifier
+                .padding(vertical = (screenHeight * TEXT_VERTICAL_PADDING_WEIGHT).dp)
+                .onGloballyPositioned {
+                    textHeightDp.value = with(localDensity) { it.size.height.toDp() }
+                }
         )
         UploadImageButton(modifier = Modifier.buttonSize(), onClick = onClick)
+        println("textHeightDp $textHeightDp")
     }
 }
 

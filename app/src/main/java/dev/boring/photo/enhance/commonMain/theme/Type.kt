@@ -40,7 +40,8 @@ val BigTextAlignCenterStyle = TextStyle(
 )
 
 val ButtonTextStyle = TextStyle(
-    fontSize = 24.sp
+    fontSize = 24.sp,
+    fontWeight = FontWeight.Normal
 )
 
 val ButtonDescriptionTextStyle = TextStyle(

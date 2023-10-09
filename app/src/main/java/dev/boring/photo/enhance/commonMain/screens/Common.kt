@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -70,13 +72,16 @@ fun PreviewPhoto(@DrawableRes id: Int) {
 
 @Composable
 fun RemoveAdsButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    ColoredAlphaButton(onClick = { onClick() }, modifier = modifier) {
+    OutlinedButton(onClick = { onClick() }, modifier = modifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = stringResource(id = R.string.remove_ads), style = ButtonTextStyle)
+            Text(
+                text = stringResource(id = R.string.remove_ads),
+                style = ButtonTextStyle.copy(color = MaterialTheme.colorScheme.secondary)
+            )
             Image(
                 painter = painterResource(id = R.drawable.heart_diamond),
                 contentDescription = null,
@@ -102,7 +107,8 @@ fun ColoredAlphaButton(
 
 @Composable
 @Preview
-private fun RandomTextPreview() = RandomText(text = stringResource(id = R.string.preview_hello_world))
+private fun RandomTextPreview() =
+    RandomText(text = stringResource(id = R.string.preview_hello_world))
 
 @Composable
 @Preview

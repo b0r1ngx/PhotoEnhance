@@ -6,11 +6,13 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -39,6 +41,7 @@ import dev.boring.photo.enhance.commonMain.PREVIEW_HEIGHT
 import dev.boring.photo.enhance.commonMain.PREVIEW_WIDTH
 import dev.boring.photo.enhance.commonMain.theme.ButtonDescriptionTextStyle
 import dev.boring.photo.enhance.commonMain.theme.ButtonTextStyle
+import dev.boring.photo.enhance.commonMain.theme.PickedQuality
 import dev.boring.photo.enhance.commonMain.theme.buttonSize
 import dev.boring.photo.enhance.commonMain.theme.cornerShape
 import dev.boring.photo.enhance.commonMain.theme.iconSize
@@ -56,14 +59,89 @@ fun EnhancedPhotoScreen(userViewModel: UserViewModel, navHostController: NavHost
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         PreviewPhoto(id = R.drawable.man) // TODO: hint for user: touch photo to see how it was
-        QualitySwitch()
+        QualitySwitch(
+            modifier = Modifier
+                .padding(vertical = (configuration.screenHeightDp * 2 * PHOTO_N_BUTTON_PADDING_WEIGHT).dp),
+            quality = remember { if (userViewModel.isUserPremium.value) Quality.HQ else Quality.Base }
+        )
         DownloadButton() { }
     }
 }
 
-@Composable
-private fun QualitySwitch() { // TODO: implement it
+enum class Quality {
+    Base, HQ
+}
 
+@Composable
+private fun QualitySwitch(modifier: Modifier = Modifier, quality: Quality) { // TODO: implement it
+//    val transition = updateTransition(
+//        quality,
+//        label = "Tab indicator"
+//    )
+//    val indicatorLeft by transition.animateDp(
+//        transitionSpec = {
+//            if (Quality.Base isTransitioningTo Quality.HQ) {
+//                // Indicator moves to the right.
+//                // Low stiffness spring for the left edge so it moves slower than the right edge.
+//                spring(stiffness = Spring.StiffnessVeryLow)
+//            } else {
+//                // Indicator moves to the left.
+//                // Medium stiffness spring for the left edge so it moves faster than the right edge.
+//                spring(stiffness = Spring.StiffnessMedium)
+//            }
+//        },
+//        label = "Indicator left"
+//    ) { page ->
+//        tabPositions[page.ordinal].left
+//    }
+//
+//    val indicatorRight by transition.animateDp(
+//        transitionSpec = {
+//            if (Quality.Base isTransitioningTo Quality.HQ) {
+//                // Indicator moves to the right
+//                // Medium stiffness spring for the right edge so it moves faster than the left edge.
+//                spring(stiffness = Spring.StiffnessMedium)
+//            } else {
+//                // Indicator moves to the left.
+//                // Low stiffness spring for the right edge so it moves slower than the left edge.
+//                spring(stiffness = Spring.StiffnessVeryLow)
+//            }
+//        },
+//        label = "Indicator right"
+//    ) { page ->
+//        tabPositions[page.ordinal].right
+//    }
+
+    Row(
+        modifier
+//            .offset(x = indicatorLeft)
+            .background(color = Color.Black, shape = cornerShape)
+            .height(22.dp)
+            .border(
+                width = 1.dp,
+                color = PickedQuality,
+                shape = cornerShape
+            )
+    ) {
+        Text(
+            text = "Base", modifier
+                .background(color = PickedQuality, shape = cornerShape)
+                .padding(
+                    horizontal = 14.dp,
+                    vertical = 7.dp
+                ),
+            style = ButtonDescriptionTextStyle.copy(color = Color.White)
+        )
+        Text(
+            text = "HD", modifier
+                .background(color = Color.Black, shape = cornerShape)
+                .padding(
+                    horizontal = 14.dp,
+                    vertical = 7.dp
+                ),
+            style = ButtonDescriptionTextStyle.copy(color = Color.White)
+        )
+    }
 }
 
 @Composable
@@ -72,7 +150,8 @@ private fun DownloadButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     val isOpened = remember { mutableStateOf(false) }
     ColoredAlphaButton(
         onClick = { isOpened.value = true },
-        modifier = modifier.buttonSize()
+        modifier = modifier.buttonSize(),
+        containerColor = Color.Black
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -130,7 +209,10 @@ private fun InnerDownloadButton(modifier: Modifier, onClick: () -> Unit) {
     Button(onClick = { onClick() }, modifier = modifier) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = stringResource(id = R.string.enhanced_download), style = ButtonTextStyle)
-            Text(text = stringResource(id = R.string.watch_an_ad), style = ButtonDescriptionTextStyle)
+            Text(
+                text = stringResource(id = R.string.watch_an_ad),
+                style = ButtonDescriptionTextStyle
+            )
         }
     }
 }
